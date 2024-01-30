@@ -12,11 +12,11 @@ Globals:
     LoggingConfig:
       LogFormat: JSON
 Resources:
-  HelloWorldFunction:
+  RequestHandlerFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: HelloWorldFunction
-      Handler: hello-world
+      CodeUri: RequestHandlerFunction
+      Handler: request-handler
       Runtime: go1.x
       Architectures:
       - x86_64
@@ -24,27 +24,37 @@ Resources:
         CatchAll:
           Type: Api
           Properties:
-            Path: /hello
-            Method: GET
+            Path: /request-handler
+            Method: POST
+            RestApiId:
+              Ref: RequestHandlerApi
       Environment:
         Variables:
           PARAM1: VALUE
     Metadata:
-      SamResourceId: HelloWorldFunction
+      SamResourceId: RequestHandlerFunction
+  RequestHandlerApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: '''POST, OPTIONS'''
+        AllowHeaders: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
+        AllowOrigin: '''*'''
 Outputs:
-  HelloWorldAPI:
+  RequestHandlerAPI:
     Description: API Gateway endpoint URL for Prod environment for First Function
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/
-  HelloWorldFunction:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/request-handler/
+  RequestHandlerFunction:
     Description: First Lambda Function ARN
     Value:
       Fn::GetAtt:
-      - HelloWorldFunction
+      - RequestHandlerFunction
       - Arn
-  HelloWorldFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
+  RequestHandlerFunctionIamRole:
+    Description: Implicit IAM Role created for Request Handler function
     Value:
       Fn::GetAtt:
-      - HelloWorldFunctionRole
+      - RequestHandlerFunctionRole
       - Arn

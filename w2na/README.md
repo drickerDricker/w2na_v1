@@ -6,7 +6,7 @@ This is a sample template for w2na - Below is a brief explanation of what we hav
 .
 ├── Makefile                    <-- Make to automate build
 ├── README.md                   <-- This instructions file
-├── hello-world                 <-- Source code for a lambda function
+├── request-handler                 <-- Source code for a lambda function
 │   ├── main.go                 <-- Lambda function code
 │   └── main_test.go            <-- Unit tests
 └── template.yaml
@@ -88,7 +88,7 @@ You can find your API Gateway Endpoint URL in the output values displayed after 
 We use `testing` package that is built-in in Golang and you can simply run the following command to run our tests:
 
 ```shell
-cd ./hello-world/
+cd ./request-handler/
 go test -v .
 ```
 # Appendix
