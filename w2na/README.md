@@ -10,7 +10,6 @@ This is a sample template for w2na - Below is a brief explanation of what we hav
 │   ├── main.go                 <-- Lambda function code
 │   └── main_test.go            <-- Unit tests
 └── template.yaml
-```
 
 ## Requirements
 
