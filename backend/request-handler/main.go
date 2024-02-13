@@ -52,7 +52,9 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return events.APIGatewayProxyResponse{}, err
 	}
 
-	svc := dynamodb.NewFromConfig(cfg)
+	svc := dynamodb.NewFromConfig(cfg, func(o *dynamodb.Options) {
+		o.EndpointResolver = dynamodb.EndpointResolverFromURL("http://localhost:8000")
+	})
 	item := Item{
 		ULID:      id.String(),
 		Status:    "Synthesizing",
@@ -68,7 +70,9 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		Item:      av,
 		TableName: aws.String("SynthVoiceRequests"),
 	}
+	fmt.Println("しっぱい")
 	_, err = svc.PutItem(context.TODO(), input)
+
 	if err != nil {
 		fmt.Println(err)
 		return events.APIGatewayProxyResponse{}, err
