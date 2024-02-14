@@ -1,0 +1,19 @@
+version: "3.8"
+
+#https://docs.docker.com/compose/compose-file/compose-file-v3/
+
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    ports:
+      - 8000:8000
+    networks:
+      - w2na_networks
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath .
+    container_name: dynamodb
+
+volumes:
+  w2na_db:
+
+networks:
+  w2na_networks:
